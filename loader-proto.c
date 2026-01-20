@@ -287,6 +287,8 @@ shim_load_image(BOOLEAN BootPolicy, EFI_HANDLE ParentImageHandle,
 	image->li.Revision = 0x1000;
 	image->li.ParentHandle = ParentImageHandle;
 	image->li.SystemTable = systab;
+	image->li.ImageCodeType = EfiLoaderCode;
+	image->li.ImageDataType = EfiLoaderData;
 	image->li.DeviceHandle = bprop.hnd;
 	if (bprop.dp) {
 		image->li.FilePath = DuplicateDevicePath(bprop.dp);
@@ -321,7 +323,8 @@ shim_load_image(BOOLEAN BootPolicy, EFI_HANDLE ParentImageHandle,
 	in_protocol = 0;
 	if (EFI_ERROR(efi_status))
 		goto free_alloc;
-
+	image->li.ImageBase = (void *)(uintptr_t)image->alloc_address;
+	image->li.ImageSize = (UINT64)image->alloc_pages << 12;
 	if (bprop.buffer && bprop.allocated_buffer)
 		FreePool(bprop.buffer);
 

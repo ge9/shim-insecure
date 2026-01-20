@@ -1,3 +1,8 @@
+# Insecure shim
+
+### This shim version performs no verification and also disables verification when launched from another shim (tested with 16.1, which introduces a new verification protocoll). This software is inspired by [Super-UEFIinSecureBoot-Disk](https://github.com/ValdikSS/Super-UEFIinSecureBoot-Disk), which seems no longer working when launched by shim 16.1. This version uses GRUB path `grub$(ARCH_SUFFIX).insec.efi` instead of the usual `grub$(ARCH_SUFFIX).efi`.
+- must be built with `VENDOR_CERT_FILE` set (although the certificate is never actually used); otherwise subsequent EFI execution may fail (at least, `The image is not an application` error in UEFI shell).
+
 # shim, a first-stage UEFI bootloader
 
 shim is a trivial EFI application that, when run, attempts to open and
